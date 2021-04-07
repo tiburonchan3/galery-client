@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+.toggle__dot {
+  top: -.25rem;
+  left: -.25rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.toggle__dot_active {
+  transform: translateX(100%);
+}
