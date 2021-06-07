@@ -58,7 +58,7 @@ const Category = ({ showModal, setShowModal }) => {
             />
             <button
               onClick={() => setShowModal(!showModal)}
-              className="bg-blue-600 p-2 w-28 text-center text-semibold float-right text-white rounded-md font-semibold text-xs mr-8"
+              className="bg-global p-2 w-28 text-center text-semibold float-right text-white rounded-md font-semibold text-xs mr-8"
             >
               Agregar
             </button>
@@ -71,11 +71,13 @@ const Category = ({ showModal, setShowModal }) => {
             </Modal>
           </div>
           <Table categories={categories} setReload={setReload} />
-          <Pagination
-            method={getCategories}
-            pagination={pagination}
-            rangePag={rangePag}
-          />
+          {pagination.totalPages && pagination.totalPages > 1 && (
+            <Pagination
+              method={getCategories}
+              pagination={pagination}
+              rangePag={rangePag}
+            />
+          )}
         </div>
       </div>
     </Layout>

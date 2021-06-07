@@ -59,7 +59,7 @@ const Mark = ({ showModal, setShowModal }) => {
             />
             <button
               onClick={() => setShowModal(true)}
-              className="bg-blue-600 p-2 w-28 text-center text-semibold float-right text-white rounded-md font-semibold text-xs mr-14"
+              className="bg-global p-2 w-28 text-center text-semibold float-right text-white rounded-md font-semibold text-xs mr-14"
             >
               Agregar
             </button>
@@ -68,17 +68,17 @@ const Mark = ({ showModal, setShowModal }) => {
               setShowModal={setShowModal}
               title="Agregar Marca"
             >
-              <Form
-                setReload={setReload}
-                setShowModal={setShowModal}
-              />
+              <Form setReload={setReload} setShowModal={setShowModal} />
             </Modal>
           </div>
-          <Table
-            marks={marks}
-            setReload={setReload}
-          />
-          <Pagination method={getMarks} pagination={pagination} rangePag={rangePag}/>
+          <Table marks={marks} setReload={setReload} />
+          {pagination.totalPages && pagination.totalPages > 1 && (
+            <Pagination
+              method={getMarks}
+              pagination={pagination}
+              rangePag={rangePag}
+            />
+          )}
         </div>
       </div>
     </Layout>

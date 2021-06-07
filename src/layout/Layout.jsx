@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
   return (
     <div className="flex w-screen h-screen">
       <div
-        className="bg-white icons h-screen fixed"
+        className="icons h-full md:h-screen fixed z-50"
         style={{ transition: "all .5s ease", width: "60px" }}
       >
         <NavbarIcons openMenu={openMenu} setOpenMenu={setOpenMenu} />

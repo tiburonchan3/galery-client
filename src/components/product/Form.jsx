@@ -215,7 +215,7 @@ const Form = (props) => {
             </div>
             <button
               type="submit"
-              className="bg-blue-600 p-2 w-28 text-center text-semibold mt-8 text-white rounded-md font-semibold text-xs mr-8"
+              className="bg-global p-2 w-28 text-center text-semibold mt-8 text-white rounded-md font-semibold text-xs mr-8"
             >
               {textButton}
             </button>

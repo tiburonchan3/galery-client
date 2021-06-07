@@ -6,8 +6,10 @@ import { confirmAlert } from "react-confirm-alert";
 import DeleteAction from "../global/DeleteAction";
 import Modal from "../global/modal/Modal";
 import Form from "./Form";
+import useAuth from "../../hooks/useAuth";
 
 const Table = (props) => {
+  const { auth } = useAuth();
   const { marks, setReload } = props;
   const service = new MarkService();
   const [mark, setMark] = useState(null);
@@ -44,7 +46,7 @@ const Table = (props) => {
     setShowModal(!showModal);
   };
   return (
-    <div className="-mx-6 w-11/12 sm:-mx-8 sm:px-8 overflow-x-auto mt-10">
+    <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto mt-10">
       <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
         <table className="min-w-full leading-normal">
           <thead>
@@ -56,7 +58,7 @@ const Table = (props) => {
             </tr>
           </thead>
           <tbody>
-            {marks?.map((mark, index) => (
+            {marks && marks.map((mark, index) => (
               <tr key={index}>
                 <TDComponent name={mark.id} />
                 <TDComponent name={mark.marca} />
@@ -86,16 +88,18 @@ const Table = (props) => {
                 <TDComponent>
                   <button
                     onClick={() => click(mark)}
-                    className="bg-indigo-700 p-2 text-xs w-20 rounded mr-4 text-white font-semibold"
+                    className="bg-global p-2 text-xs w-20 rounded mr-4 text-white font-semibold"
                   >
                     Editar
                   </button>
-                  <button
-                    onClick={() => deleteMark(mark.id)}
-                    className="bg-red-400 p-2 text-xs w-20 rounded text-white font-semibold"
-                  >
-                    Eliminar
-                  </button>
+                  {auth.role === "admin" && (
+                    <button
+                      onClick={() => deleteMark(mark.id)}
+                      className="bg-red-400 p-2 text-xs w-20 rounded text-white font-semibold"
+                    >
+                      Eliminar
+                    </button>
+                  )}
                 </TDComponent>
               </tr>
             ))}

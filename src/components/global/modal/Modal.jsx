@@ -1,11 +1,14 @@
 import React from "react";
 
-const Modal = ({showModal, setShowModal, children , title }) => {
+const Modal = ({ showModal, setShowModal, children, title }) => {
   return (
     <>
       {showModal ? (
         <>
-          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+          <div
+            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none"
+            style={{ zIndex: 60 }}
+          >
             <div className="relative w-auto my-6 mx-auto">
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-auto bg-white outline-none focus:outline-none">
@@ -26,7 +29,7 @@ const Modal = ({showModal, setShowModal, children , title }) => {
               </div>
             </div>
           </div>
-          <div className="fixed opacity-50 inset-0 z-40 bg-black"></div>
+          <div className="fixed opacity-50 inset-0 z-50 bg-black"></div>
         </>
       ) : null}
     </>

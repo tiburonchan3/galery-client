@@ -1,17 +1,42 @@
-import React, { useState } from "react";
-import Auth from "./pages/Auth";
+import React, { useState, useEffect, useMemo } from "react";
 import Routing from "./routes/routes";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.scss";
+import { TokenService } from "./services/token.service";
+import authContext from "./hooks/authContext";
+import AuthRoutes from "./routes/authRoutes";
 const App = () => {
-  const [auth, setAuth] = useState({ name: "daniel" });
+  const tkService = new TokenService();
+  const [auth, setAuth] = useState();
   const [showModal, setShowModal] = useState(false);
+  const [loadUser, setLoadUser] = useState(false);
+  const [refreshCheckLogin, setRefreshCheckLogin] = useState(false);
+
+  useEffect(() => {
+    setAuth(tkService.isUserLoggedApi());
+    setRefreshCheckLogin(false);
+    setLoadUser(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshCheckLogin]);
+  const setUser = (user) => {
+    setAuth(user);
+  };
+  const authData = useMemo(
+    () => ({
+      auth,
+      setUser,
+      setRefreshCheckLogin
+    }),
+    [auth]
+  );
+  if (!loadUser) return null;
   return (
-    <div>
+    <authContext.Provider value={authData}>
       {auth ? (
         <Routing showModal={showModal} setShowModal={setShowModal} />
       ) : (
-        <Auth />
+        <AuthRoutes setRefreshCheckLogin={setRefreshCheckLogin} />
       )}
       <ToastContainer
         position="top-right"
@@ -23,7 +48,7 @@ const App = () => {
         draggable
         pauseOnHover
       />
-    </div>
+    </authContext.Provider>
   );
 };
 

@@ -5,6 +5,10 @@ import Modal from "../global/modal/Modal";
 import Form from "./Form";
 import { ProductService } from "../../services/product.service";
 import Detail from "./Detail";
+import { toast } from "react-toastify";
+import { confirmAlert } from "react-confirm-alert";
+import DeleteAction from "../global/DeleteAction";
+import useAuth from "../../hooks/useAuth";
 
 const Table = (props) => {
   const { products, setReload, marks, providers, categories } = props;
@@ -13,35 +17,44 @@ const Table = (props) => {
   const [product, setProduct] = useState(null);
   const [showDetail, setShowDetail] = useState(false);
   const productService = new ProductService();
+  const { auth } = useAuth();
   const change = (id) => {
     const query = {
       id,
     };
+    productService.changeStatus(query).then((res) => {
+      if (res.ok) {
+        setReload(true);
+        return;
+      }
+      toast.error(res.message);
+    });
   };
-  //   const deleteMark = (id) => {
-  //     confirmAlert({
-  //       customUI: ({ onClose }) => {
-  //         return (
-  //           <DeleteAction
-  //             id={id}
-  //             type="mark"
-  //             onClose={onClose}
-  //             setReload={setReload}
-  //           />
-  //         );
-  //       },
-  //     });
-  //   };
+
   const detail = (product) => {
     setProductDetail(product);
     setShowDetail(true);
+  };
+  const deleteProduct = (id) => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <DeleteAction
+            id={id}
+            type="product"
+            onClose={onClose}
+            setReload={setReload}
+          />
+        );
+      },
+    });
   };
   const edit = (product) => {
     setShowModal(true);
     setProduct(product);
   };
   return (
-    <div className="-mx-6 w-11/12 sm:-mx-8 sm:px-8 overflow-x-auto mt-10">
+    <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto mt-10">
       <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
         <table className="min-w-full leading-normal">
           <thead>
@@ -97,16 +110,18 @@ const Table = (props) => {
                 <TDComponent>
                   <button
                     onClick={() => edit(product)}
-                    className="bg-indigo-700 p-2 text-xs w-20 rounded mr-4 text-white font-semibold"
+                    className="bg-global p-2 text-xs w-20 rounded mr-4 text-white font-semibold"
                   >
                     Editar
                   </button>
-                  <button
-                    // onClick={() => deleteMark(mark.id)}
-                    className="bg-red-400 p-2 text-xs w-20 rounded text-white font-semibold"
-                  >
-                    Eliminar
-                  </button>
+                  {auth.role === "admin" && (
+                    <button
+                      onClick={() => deleteProduct(product.id)}
+                      className="bg-red-400 p-2 text-xs w-20 rounded text-white font-semibold"
+                    >
+                      Eliminar
+                    </button>
+                  )}
                 </TDComponent>
               </tr>
             ))}
@@ -118,7 +133,12 @@ const Table = (props) => {
           setShowModal={setShowDetail}
           title={productDetail?.nombreProducto}
         >
-          <Detail product={productDetail} setShowModal={setShowModal} showModal={showModal} setShowDetail={setShowDetail}/>
+          <Detail
+            product={productDetail}
+            setShowModal={setShowModal}
+            showModal={showModal}
+            setShowDetail={setShowDetail}
+          />
         </Modal>
         {/* Edit Modal */}
         <Modal setShowModal={setShowModal} showModal={showModal}>

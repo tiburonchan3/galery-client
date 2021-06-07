@@ -6,7 +6,7 @@ const TDComponent = ({ name, children,onclick,cursor }) => {
       <div className="flex items-center text-center">
         <div className="ml-3">
           {name ? (
-            <p className={cursor + " text-gray-900 text-xs whitespace-no-wrap text-center"}>
+            <p className={cursor + " text-gray-900 text-xs whitespace-nowrap text-center"}>
               {name}
             </p>
           ) : (

@@ -76,7 +76,7 @@ const Product = ({ showModal, setShowModal }) => {
             />
             <button
               onClick={() => setShowModal(true)}
-              className="bg-blue-600 p-2 w-28 text-center text-semibold float-right text-white rounded-md font-semibold text-xs mr-14"
+              className="bg-global p-2 w-28 text-center text-semibold float-right text-white rounded-md font-semibold text-xs mr-14"
             >
               Agregar
             </button>
@@ -104,11 +104,13 @@ const Product = ({ showModal, setShowModal }) => {
             categories={categories}
             providers={providers}
           />
-          <Pagination
-            method={getProducts}
-            pagination={pagination}
-            rangePag={rangePag}
-          />
+         {pagination.totalPages && pagination.totalPages > 1 && (
+            <Pagination
+              method={getProducts}
+              pagination={pagination}
+              rangePag={rangePag}
+            />
+          )}
         </div>
       </div>
     </Layout>

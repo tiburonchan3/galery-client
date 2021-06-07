@@ -5,9 +5,9 @@ import Form from "../components/provider/Form";
 import Table from "../components/provider/Table";
 import Layout from "../layout/Layout";
 import { ProviderService } from "../services/provider.service";
-import Pagination from '../components/global/Pagination';
+import Pagination from "../components/global/Pagination";
 
-const Provider = ({setShowModal,showModal}) => {
+const Provider = ({ setShowModal, showModal }) => {
   const [providers, setProviders] = useState(null);
   const [rangePag, setRangePag] = useState(null);
   const [search, setSearch] = useState("");
@@ -54,8 +54,8 @@ const Provider = ({setShowModal,showModal}) => {
               placeholder="Escribe para filtrar los proveedores"
             />
             <button
-                onClick={() => setShowModal(true)}
-              className="bg-blue-600 p-2 w-28 text-center text-semibold float-right text-white rounded-md font-semibold text-xs mr-14"
+              onClick={() => setShowModal(true)}
+              className="bg-global p-2 w-28 text-center text-semibold float-right text-white rounded-md font-semibold text-xs mr-14"
             >
               Agregar
             </button>
@@ -64,14 +64,17 @@ const Provider = ({setShowModal,showModal}) => {
               setShowModal={setShowModal}
               title="Agregar Proveedor"
             >
-              <Form
-                setReload={setReload}
-                setShowModal={setShowModal}
-              />
+              <Form setReload={setReload} setShowModal={setShowModal} />
             </Modal>
           </div>
-          <Table setReload={setReload} providers={providers}/>
-          <Pagination method={getProviders} pagination={pagination} rangePag={rangePag} />
+          <Table setReload={setReload} providers={providers} />
+          {pagination.totalPages && pagination.totalPages > 1 && (
+            <Pagination
+              method={getProviders}
+              pagination={pagination}
+              rangePag={rangePag}
+            />
+          )}
         </div>
       </div>
     </Layout>

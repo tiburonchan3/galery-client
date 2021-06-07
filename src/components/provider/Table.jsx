@@ -6,8 +6,10 @@ import DeleteAction from "../global/DeleteAction";
 import { ProviderService } from "../../services/provider.service";
 import Modal from "../global/modal/Modal";
 import Form from "./Form";
+import useAuth from "../../hooks/useAuth";
 
 const Table = (props) => {
+  const { auth } = useAuth();
   const { providers, setReload } = props;
   const [provider, setProvider] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -25,7 +27,7 @@ const Table = (props) => {
       }
     });
   };
-  const deleteMark = (id) => {
+  const deleteProvider= (id) => {
     confirmAlert({
       customUI: ({ onClose }) => {
         return (
@@ -44,7 +46,7 @@ const Table = (props) => {
     setShowModal(!showModal);
   };
   return (
-    <div className="-mx-6 w-11/12 sm:-mx-8 sm:px-8 overflow-x-auto mt-10">
+    <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto mt-10">
       <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
         <table className="min-w-full leading-normal">
           <thead>
@@ -92,16 +94,18 @@ const Table = (props) => {
                 <TDComponent>
                   <button
                     onClick={() => forUpdate(provider)}
-                    className="bg-indigo-700 p-1 text-xs w-16 rounded mr-4 text-white font-semibold"
+                    className="bg-global p-1 text-xs w-16 rounded mr-4 text-white font-semibold"
                   >
                     Editar
                   </button>
-                  <button
-                    onClick={() => deleteMark(provider.id)}
-                    className="bg-red-400 p-1 text-xs w-16 rounded text-white font-semibold"
-                  >
-                    Eliminar
-                  </button>
+                  {auth.role === "admin" && (
+                    <button
+                      onClick={() => deleteProvider(provider.id)}
+                      className="bg-red-400 p-1 text-xs w-16 rounded text-white font-semibold"
+                    >
+                      Eliminar
+                    </button>
+                  )}
                 </TDComponent>
               </tr>
             ))}

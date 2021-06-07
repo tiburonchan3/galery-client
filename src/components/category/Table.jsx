@@ -6,8 +6,10 @@ import DeleteAction from "../global/DeleteAction";
 import Form from "./Form";
 import { CategoryService } from "../../services/category.service";
 import { confirmAlert } from "react-confirm-alert";
+import useAuth from "../../hooks/useAuth";
 
 const Table = ({ categories, setReload }) => {
+  const { auth } = useAuth();
   const [category, setCategory] = useState();
   const [showModal, setShowModal] = useState(false);
   const categoryService = new CategoryService();
@@ -85,16 +87,18 @@ const Table = ({ categories, setReload }) => {
                 <TDComponent>
                   <button
                     onClick={() => click(cat)}
-                    className="bg-indigo-700 p-2 text-xs w-20 rounded mr-4 text-white font-semibold"
+                    className="bg-global p-2 text-xs w-20 rounded mr-4 text-white font-semibold"
                   >
                     Editar
                   </button>
-                  <button
-                    onClick={() => deleteCategory(cat.id)}
-                    className="bg-red-400 p-2 text-xs w-20 rounded text-white font-semibold"
-                  >
-                    Eliminar
-                  </button>
+                  {auth.role === "admin" && (
+                    <button
+                      onClick={() => deleteCategory(cat.id)}
+                      className="bg-red-400 p-2 text-xs w-20 rounded text-white font-semibold"
+                    >
+                      Eliminar
+                    </button>
+                  )}
                 </TDComponent>
               </tr>
             ))}

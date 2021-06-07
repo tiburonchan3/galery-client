@@ -49,7 +49,7 @@ const Form = ({ setReload, setShowModal, oldMark }) => {
             onChange={onChange}
           />
         </div>
-        <button className="bg-blue-600 p-2 w-28 text-center text-semibold mt-8 text-white rounded-md font-semibold text-xs mr-8">
+        <button className="bg-global p-2 w-28 text-center text-semibold mt-8 text-white rounded-md font-semibold text-xs mr-8">
           {oldMark ? "Actualizar" : "Agregar"}
         </button>
       </div>
